@@ -79,12 +79,25 @@ glob(__dirname + '/../**/package.json', {
                                             projects: [name],
                                             license,
                                             repository,
+                                            firstParty: 'no',
                                         };
                                     }
                                 });
                             }
-                        } catch (e) {
-                        }
+                        } catch (e) {}
+                    });
+                    await new Promise ((resolve, reject) => {
+                        fs.readFile(projects[name], (err, res) => {
+                            if (!err && res) {
+                                const pkg = JSON.parse(res);
+                                const firstParty = [...Object.keys(pkg.dependencies), ...Object.keys(pkg.devDependencies)];
+                                firstParty.forEach((fpPackage) => {
+                                    packages[fpPackage].firstParty = 'yes';
+                                });
+                                return resolve();
+                            }
+                            return reject(err);
+                        });
                     });
                     console.log(`Finished export for ${name}`);
                 }
@@ -108,6 +121,7 @@ glob(__dirname + '/../**/package.json', {
                         'projects',
                         'license',
                         'repository',
+                        'firstParty',
                     ]
                 });
             })
