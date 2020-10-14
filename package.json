@@ -1,0 +1,9 @@
+{
+  "name": "Licences",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "glob": "^7.1.6",
+    "prompt-checkbox": "^2.2.0",
+    "text-prompt": "^0.1.3"
+  }
+}
