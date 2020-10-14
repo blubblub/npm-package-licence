@@ -5,4 +5,4 @@ Project which exports all packages licences and groups them together.
 > yarn
 
 ### Run script
-> node licences.js
+> yarn export

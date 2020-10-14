@@ -1,6 +1,9 @@
 {
   "name": "Licences",
   "license": "UNLICENSED",
+  "scripts": {
+    "export": "node licences.js"
+  },
   "dependencies": {
     "glob": "^7.1.6",
     "prompt-checkbox": "^2.2.0",
