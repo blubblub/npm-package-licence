@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "glob": "^7.1.6",
+    "json-2-csv": "^3.7.8",
     "prompt-checkbox": "^2.2.0",
     "text-prompt": "^0.1.3"
   }

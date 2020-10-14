@@ -356,6 +356,11 @@ debug@^3.0.1:
   dependencies:
     ms "^2.1.1"
 
+deeks@2.2.7:
+  version "2.2.7"
+  resolved "https://registry.yarnpkg.com/deeks/-/deeks-2.2.7.tgz#91e711cdd434e0f12ddc194836569e2a3db383ad"
+  integrity sha512-pCKFxSqyY2LAQ3qKQ+y+wOG63Bb9uDmDiHUVnrTR10AP75BVo2QMlgm36G+oPpRDPrgAiw5p9d+lAxdsqOwOyA==
+
 define-property@^0.2.5:
   version "0.2.5"
   resolved "https://registry.yarnpkg.com/define-property/-/define-property-0.2.5.tgz#c35b1ef918ec3c990f9a5bc57be04aacec5c8116"
@@ -377,6 +382,11 @@ define-property@^2.0.2:
   dependencies:
     is-descriptor "^1.0.2"
     isobject "^3.0.1"
+
+doc-path@2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/doc-path/-/doc-path-2.1.2.tgz#08344d188619a6ff7c6631e462362dd720e4e81f"
+  integrity sha512-saM17czrIb4jYLsS5728OKbCa/WQ3xVctkGiMixOHz3X1VYsRn/Q5xPMxE1A5WN+XHHLWak34mMMjmAKRgMLeA==
 
 error-symbol@^0.1.0:
   version "0.1.0"
@@ -550,6 +560,14 @@ isobject@^3.0.0, isobject@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
   integrity sha1-TkMekrEalzFjaqH5yNHMvP2reN8=
+
+json-2-csv@^3.7.8:
+  version "3.7.8"
+  resolved "https://registry.yarnpkg.com/json-2-csv/-/json-2-csv-3.7.8.tgz#d7663bfe6e022387c5a2db0f57745eb84aa19f06"
+  integrity sha512-2CDoU32s/RA9a9xPRVsLDgk7UMW5u2SzrdklsNDl8tmdHUWT7JN2+eUV1hn1TuxJyrJxQjEXM5K4kTTnpY5+Pw==
+  dependencies:
+    deeks "2.2.7"
+    doc-path "2.1.2"
 
 kind-of@^3.0.2, kind-of@^3.0.3:
   version "3.2.2"

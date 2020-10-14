@@ -3,7 +3,8 @@ const fs = require('fs');
 const path = require('path');
 const CheckboxPrompt = require('prompt-checkbox');
 const textprompt = require('text-prompt');
-const childProcess = require('child_process')
+const childProcess = require('child_process');
+const converter = require('json-2-csv');
 
 const TextPrompt = (question) => {
     return new Promise((resolve, reject) => {
@@ -26,13 +27,13 @@ const getLicences = (location) => {
     })
 };
 
-const filename = "package-licences.json";
+const filename = "package-licences";
 let packages = {};
 
 glob(__dirname + '/../**/package.json', {
     ignore: [__dirname + '/../**/node_modules/**', __dirname + '/*'],
 }, (err, files) => {
-    fs.readFile(`export/${filename}`, (err, res) => {
+    fs.readFile(`export/${filename}.json`, (err, res) => {
         if (!err && res) {
             packages = JSON.parse(res);
         }
@@ -87,10 +88,28 @@ glob(__dirname + '/../**/package.json', {
                     });
                     console.log(`Finished export for ${name}`);
                 }
+                fs.writeFile(`export/${filename}.json`, JSON.stringify(packages), () => {});
                 Object.keys(packages).map((name) => {
-                   packages[name].projects = packages[name].projects.join(', ');
+                    packages[name].projects = packages[name].projects.join(', ');
                 });
-                fs.writeFile(`export/${filename}`, JSON.stringify(packages), () => {})
+                const packageArray = [];
+                Object.keys(packages).map((name) => {
+                    packages[name].package = name;
+                    packageArray.push(packages[name]);
+                });
+                converter.json2csv(packageArray, (err, csv) => {
+                    if (err) {
+                        throw err;
+                    }
+                    fs.writeFile(`export/${filename}.csv`, csv, () => {});
+                }, {
+                    keys: [
+                        'package',
+                        'projects',
+                        'license',
+                        'repository',
+                    ]
+                });
             })
             .catch(function (err) {
                 console.log(err)
