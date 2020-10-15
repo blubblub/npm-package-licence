@@ -49,6 +49,9 @@ glob(__dirname + '/../**/package.json', {
                     const name = await TextPrompt(`What is project name for ${file}`);
                     projects[name] = file;
                 }
+                Object.keys(packages).map((name) => {
+                    packages[name].type = 'old';
+                });
                 for (const name of Object.keys(projects)) {
                     console.log(`Exporting licences of ${name}...`);
                     const licences = await getLicences(projects[name]);
@@ -73,6 +76,7 @@ glob(__dirname + '/../**/package.json', {
                                         if (!packages[pkg].projects.includes(name)) {
                                             packages[pkg].projects.push(name);
                                         }
+                                        packages[pkg].type = 'used';
                                     }
                                     else {
                                         packages[pkg] = {
@@ -80,6 +84,7 @@ glob(__dirname + '/../**/package.json', {
                                             license,
                                             repository,
                                             firstParty: 'no',
+                                            type: 'new',
                                         };
                                     }
                                 });
@@ -101,6 +106,9 @@ glob(__dirname + '/../**/package.json', {
                     });
                     console.log(`Finished export for ${name}`);
                 }
+                if (!fs.existsSync('./export')){
+                    await fs.mkdirSync('./export');
+                }
                 fs.writeFile(`export/${filename}.json`, JSON.stringify(packages), () => {});
                 Object.keys(packages).map((name) => {
                     packages[name].projects = packages[name].projects.join(', ');
@@ -115,6 +123,7 @@ glob(__dirname + '/../**/package.json', {
                         throw err;
                     }
                     fs.writeFile(`export/${filename}.csv`, csv, () => {});
+                    console.log("All licences exported into /export folder!")
                 }, {
                     keys: [
                         'package',
@@ -122,6 +131,7 @@ glob(__dirname + '/../**/package.json', {
                         'license',
                         'repository',
                         'firstParty',
+                        'type',
                     ]
                 });
             })
