@@ -199,7 +199,13 @@ async function getPreviosResult () {
 
         return JSON.parse(content);
     } catch (error) {
-        return {};
+        try {
+            const content = await fs.readFile(`export/package-licences.json`);
+
+            return JSON.parse(content);
+        } catch (error) {
+            return {};
+        }
     }
 }
 
