@@ -41,7 +41,7 @@ const getLicenses = (location) => {
     });
 };
 
-async function checkPrerequsites () {
+async function checkPrerequisites () {
     try {
         await fs.access('./export');
 
@@ -52,7 +52,7 @@ async function checkPrerequsites () {
 }
 
 async function prepareMetadata (projects) {
-    const previousResult = await getPreviosResult();
+    const previousResult = await getPreviousResult();
 
     const existingPackages = new Set(Object.keys(previousResult));
 
@@ -163,7 +163,7 @@ async function processProject (projectName, filePath, packages, metadata) {
     return packages;
 }
 
-function resolveDeprications (packages, metadata) {
+function resolveDeprecations (packages, metadata) {
     const { previousResult } = metadata;
     const usedPackages = new Set(Object.keys(packages));
 
@@ -171,7 +171,7 @@ function resolveDeprications (packages, metadata) {
         if (!usedPackages.has(packageName)) {
             packages[packageName] = {
                 ...value,
-                type: 'depricated'
+                type: 'deprecated'
             };
         }
     }
@@ -188,12 +188,12 @@ async function processProjects (projects) {
         packages = await processProject(projectName, filePath, packages, metadata);
     }
 
-    packages = resolveDeprications(packages, metadata);
+    packages = resolveDeprecations(packages, metadata);
 
     return packages;
 }
 
-async function getPreviosResult () {
+async function getPreviousResult () {
     try {
         const content = await fs.readFile(`export/${filename}.json`);
 
@@ -215,19 +215,19 @@ function getParentJSONPackageFiles () {
     });
 }
 
-async function getAnwsersWithNames (choices) {
+async function getAnswersWithNames (choices) {
     const selected = await getMultiSelect('Which package.json files you would like to export?', choices)
     const projectNames = {};
 
     for (const file of selected) {
         const { name } = require(file);
 
-        const anwser = await getAnswer(`What is project name for ${file}?`, name);
-        projectNames[anwser] = file;
+        const answer = await getAnswer(`What is project name for ${file}?`, name);
+        projectNames[answer] = file;
     }
 
     return {
-        anwsers: selected,
+        answers: selected,
         projectNames
     };
 }
@@ -260,11 +260,11 @@ async function exportData (packages) {
 }
 
 async function exportLicences () {
-    await checkPrerequsites();
+    await checkPrerequisites();
 
     const choices = await getParentJSONPackageFiles();
 
-    const { projectNames } = await getAnwsersWithNames(choices);
+    const { projectNames } = await getAnswersWithNames(choices);
 
     const finalPackages = await processProjects(projectNames);
 
